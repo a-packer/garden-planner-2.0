@@ -1,19 +1,9 @@
-import Link from "next/link";
+import Layout from './layout';
 
 export default function Home() {
   return (
-    <div>
-      <header> 
-        <ul>
-          <li><Link href="/login">Login</Link></li>
-          <li><Link href="/plants">Plants</Link></li>
-          <li><Link href="/gardenPlanner">Garden Planner</Link></li>
-        </ul>
-      </header>
-      <main>
-        <h1>Home</h1>
-        {/* Registration Form */}
-      </main>      
-    </div>
+    <Layout>
+      <h1>Home Page</h1>
+    </Layout>
   );
 }

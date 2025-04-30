@@ -6,24 +6,26 @@ import styles from './RegisterForm.module.css';
 const RegisterForm = () => {
 
   const [message, setMessage] = useState('');
-  const [registerUsername, setRegisterUsername] = useState('');
+  const [registerName, setName] = useState('');
+  const [registerEmail, setEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
+  const [lastFrostDate, setLastFrostDate] = useState('');
 
   const handleSubmitRegister = async (e) => {
     e.preventDefault();
-    console.log('register', registerUsername, registerPassword)
+    console.log('register', registerEmail, registerPassword)
     try {
       const response = await fetch('/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ registerUsername, registerPassword }),
+        body: JSON.stringify({ registerEmail, registerPassword }),
       });
       if (response.ok) {
         setMessage("Registration complete");
       } else {
-        setMessage('Invalid username or password for registration.');
+        setMessage('Invalid email or password for registration.');
       }
     } catch (error) {
       setMessage('Error registering');
@@ -32,12 +34,20 @@ const RegisterForm = () => {
 
   return (
     <div className={styles.loginRegWrapper}>
-        <form onSubmit={handleSubmitRegister}>           
+        <form onSubmit={handleSubmitRegister}>  
             <div className={styles.loginRegFormDiv}>
                 <input
-                    placeholder="username"
-                    type="text" value={registerUsername}
-                    onChange={(e) => setRegisterUsername(e.target.value)}
+                    placeholder="name"
+                    type="text" value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    className={styles.loginRegInput} />
+            </div>         
+            <div className={styles.loginRegFormDiv}>
+                <input
+                    placeholder="email"
+                    type="text" value={registerEmail}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                     className={styles.loginRegInput} />
             </div>
@@ -47,6 +57,15 @@ const RegisterForm = () => {
                   type="password"
                   value={registerPassword}
                   onChange={(e) => setRegisterPassword(e.target.value)}
+                  required
+                  className={styles.loginRegInput} />
+            </div>
+            <div className={styles.loginRegFormDiv}>
+                <input
+                  placeholder="last frost date"
+                  type=""
+                  value={lastFrostDate}
+                  onChange={(e) => setLastFrostDate(e.target.value)}
                   required
                   className={styles.loginRegInput} />
             </div>

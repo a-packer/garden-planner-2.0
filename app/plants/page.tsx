@@ -1,9 +1,12 @@
 import React from 'react'
-import Plants from '../components/body/plants/Plants';
+import Plants from './Plants';
+import Layout from '../layout';
 
 const page = () => {
   return (
-    <Plants />
+    <Layout>
+      <Plants />
+    </Layout>
   )
 }
 

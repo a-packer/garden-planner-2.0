@@ -1,0 +1,44 @@
+.pageHeaderWrapper {
+  display: flex;
+  padding: 25px 35px 15px 35px;
+  margin-bottom: 20px;
+  border-bottom: 5px solid #D76572;
+  align-items: center;
+}
+
+.tableHeaderTitle {
+  background: none;
+  font-size: 35px;
+  color: #13b586; 
+  font-weight: bold;
+  border: none;
+  position: relative;
+}
+
+.tableHeaderTitle:before {
+  content: '';
+  background-image: url('./leaf.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 30px; /* Desired width */
+  height: 40px; /* Desired height */
+  position: absolute;
+  left: -20px;
+}
+
+.pageHeaderNavButton {
+  margin: 0 10px;  
+  background: linear-gradient(90deg, #D76572, #d79665, #FED44B, #29b513, #13b586);
+  background-size: 250% 100%; /* Double the width to allow for movement */
+  background-position: left;  /* Start position */
+  transition: background-position 1s ease; /* Smooth transition for background position */
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+}
+
+.pageHeaderNavButton:hover {
+  background-position: right; /* On hover, move the gradient */
+}
