@@ -19,6 +19,7 @@
 
 # production
 /build
+/pb_data
 
 # misc
 .DS_Store

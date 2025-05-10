@@ -20,6 +20,14 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Backend - PocketBase
+start the application by running 
+``` ./pocketbase serve ```
+[http://127.0.0.1:8090] - if pb_public directory exists, serves the static content from it (html, css, images, etc.)
+[http://127.0.0.1:8090/_/] - superusers dashboard
+[http://127.0.0.1:8090/api/] - REST-ish API
+You could find all available commands and their options by running ./pocketbase --help or ./pocketbase [command] --help
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
