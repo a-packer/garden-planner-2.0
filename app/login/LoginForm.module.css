@@ -1,4 +1,4 @@
-.loginRegWrapper {
+.loginWrapper {
     width: 100%;
     min-height: 300px;
     display: flex;
@@ -8,31 +8,38 @@
     padding-bottom: 20px;
 }
 
-.loginRegWrapper form {
+
+.loginWrapper h1 {
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.loginWrapper form {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-
-.loginRegFormDiv {
-    padding-bottom: 15px;
-    display: flex;
+.inputDiv {
+    position: relative;
+    margin-bottom: 15px;
+    img {
+        position: absolute;
+        top: 13px;
+        left: 5px;
+        width: 20px;
+        height: 20px;
+    }
 }
 
-.loginRegInput {
+.loginInput {
     padding: 10px 0 10px 40px;
     font-size: 18px;
     border: 2px solid grey;
 }
 
-.loginRegIcon {
-    width: 20px;
-    position: absolute;
-    padding: 11px;
-}
-
-.loginRegButton {
+.loginButton {
     background: white;
     border: 5px solid #08B3E5;
     color: #08b3e5;
@@ -41,3 +48,4 @@
     padding: 10px 20px;
     margin: 10px;
 }
+  

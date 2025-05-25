@@ -1,62 +1,63 @@
-'use client'
+'use client';
 
-import React, {useState} from 'react'
-import styles from './LoginForm.module.css'
+import React, { useState } from 'react';
+import PocketBase from 'pocketbase';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import styles from './LoginForm.module.css';
 
-const LoginForm = () => {
+type FormValues = {
+  email: string;
+  password: string;
+};
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [message, setMessage] = useState('')
+const LoginPage = () => {
+  const { register, handleSubmit } = useForm<FormValues>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [user, setUser] = useState<any>(null);
 
-  const handleSubmitLogin = async (e) => {
-    e.preventDefault();
-    console.log('login', email, password)
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    setIsLoading(true);
+    setErrorMsg('');
+    const pb = new PocketBase('http://127.0.0.1:8090');
+
     try {
-        const response = await fetch('/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-        });
-  
-        if (response.ok) {
-            const result = await response.json();
-            setMessage(result.message);
-        } else {
-            setMessage('Invalid email or password. Please Try again');
-        }
-    } catch (error) {
-        setMessage('Error logging in');
+      const authData = await pb.collection('users').authWithPassword(data.email, data.password);
+      setUser(authData.record); // you can store the auth token if needed
+      alert('Login successful!');
+    } catch (err: any) {
+      console.error(err);
+      setErrorMsg(err?.message || 'Login failed');
     }
-  };
-  return (
-    <div className={styles.loginRegWrapper}>
-      <form onSubmit={handleSubmitLogin}>
-          <div className={styles.loginRegFormDiv}>
-              <input 
-                  placeholder="email" 
-                  type='text'
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className={styles.loginRegInput} />
-          </div>
-          <div className={styles.loginRegFormDiv}>
-              <input 
-              placeholder="password" 
-              type='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className={styles.loginRegInput} />
-          </div>
-          <button className={styles.loginRegButton} type='submit'>Login</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
-  )
-}
 
-export default LoginForm
+    setIsLoading(false);
+  };
+
+  return (
+    <div className={styles.loginWrapper}>
+      <h1>Login</h1>
+      {isLoading && <p>Logging in...</p>}
+      {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className={styles.inputDiv}>
+          <input className={styles.loginInput} type="email" placeholder="Email" {...register('email')} required />
+          <img src="/icons/user.svg" alt='mySvgImage' />
+        </div>
+        <div className={styles.inputDiv}>
+          <input className={styles.loginInput} type="password" placeholder="Password" {...register('password')} required />
+          <img src="/icons/lock-solid.svg" alt='mySvgImage' />
+        </div>
+        <input className={styles.loginButton} type="submit" value="Login" disabled={isLoading} />
+      </form>
+
+      {user && (
+        <div>
+          <h2>Welcome, {user.email}</h2>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default LoginPage;

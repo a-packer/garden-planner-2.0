@@ -1,79 +1,112 @@
-'use client'
-
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import PocketBase from 'pocketbase';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from './RegisterForm.module.css';
 
+type FormValues = {
+  email: string;
+  name: string;
+  password: string;
+  passwordConfirm: string;
+  fertilize: boolean;
+  fertilizeWeeks: string;
+  lastFrostDate: string;
+  firstFrostDate: string;
+  zipcode: number;
+};
+
 const RegisterForm = () => {
+  const [isLoading, setLoading] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const { register, handleSubmit, watch } = useForm<FormValues>();
 
-  const [message, setMessage] = useState('');
-  const [registerName, setName] = useState('');
-  const [registerEmail, setEmail] = useState('');
-  const [registerPassword, setRegisterPassword] = useState('');
-  const [lastFrostDate, setLastFrostDate] = useState('');
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    setLoading(true);
+    const pb = new PocketBase('http://127.0.0.1:8090');
 
-  const handleSubmitRegister = async (e) => {
-    e.preventDefault();
-    console.log('register', registerEmail, registerPassword)
-    try {
-      const response = await fetch('/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ registerEmail, registerPassword }),
-      });
-      if (response.ok) {
-        setMessage("Registration complete");
-      } else {
-        setMessage('Invalid email or password for registration.');
-      }
-    } catch (error) {
-      setMessage('Error registering');
+    if (data.password !== data.passwordConfirm) {
+      alert('Passwords do not match');
+      setLoading(false);
+      return;
     }
+
+    try {
+      await pb.collection('users').create({
+        email: data.email,
+        name: data.name,
+        password: data.password,
+        passwordConfirm: data.passwordConfirm,
+        fertilize_reminder: data.fertilize,
+        fertilize_weeks: data.fertilizeWeeks,
+        last_frost: data.lastFrostDate,
+        first_frost: data.firstFrostDate,
+        zipcode: data.zipcode,
+      });
+
+      await pb.collection('users').authWithPassword(data.email, data.password);
+      setIsRegistered(true);
+    } catch (err: any) {
+      console.error(err);
+      alert('Registration failed: ' + (err.message || 'Unknown error'));
+    }
+
+    setLoading(false);
   };
 
   return (
-    <div className={styles.loginRegWrapper}>
-        <form onSubmit={handleSubmitRegister}>  
-            <div className={styles.loginRegFormDiv}>
-                <input
-                    placeholder="name"
-                    type="text" value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    className={styles.loginRegInput} />
-            </div>         
-            <div className={styles.loginRegFormDiv}>
-                <input
-                    placeholder="email"
-                    type="text" value={registerEmail}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className={styles.loginRegInput} />
+    <>
+      {isLoading && <p>Loading...</p>}
+      {isRegistered ? (
+        <h1>Successfully registered!</h1>
+      ) : (
+        <div className={styles.regWrapper}>
+          <h1>Register</h1>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className={styles.inputDiv}>
+              <input className={styles.regInput} type="email" placeholder="Email" {...register('email')} required />
+              <img src="/icons/user.svg" alt='mySvgImage' />
             </div>
-            <div className={styles.loginRegFormDiv}>
-                <input
-                  placeholder="password"
-                  type="password"
-                  value={registerPassword}
-                  onChange={(e) => setRegisterPassword(e.target.value)}
-                  required
-                  className={styles.loginRegInput} />
+            <div className={styles.inputDiv}>
+              <input className={styles.regInput} type="text" placeholder="Preferred Name" {...register('name')} />
+              <img src="/icons/user.svg" alt='mySvgImage' />
             </div>
-            <div className={styles.loginRegFormDiv}>
-                <input
-                  placeholder="last frost date"
-                  type=""
-                  value={lastFrostDate}
-                  onChange={(e) => setLastFrostDate(e.target.value)}
-                  required
-                  className={styles.loginRegInput} />
+            <div className={styles.inputDiv}>
+              <input className={styles.regInput} type="password" placeholder="Password" {...register('password')} required />
+              <img src="/icons/lock-solid.svg" alt='mySvgImage' />
             </div>
-          <button className={styles.loginRegButton} type="submit">Register</button>
-        </form>
-      {message && <p>{message}</p>}
-    </div>
-  )
+            <div className={styles.inputDiv}>
+              <input className={styles.regInput} type="password" placeholder="Confirm Password" {...register('passwordConfirm')} required />
+              <img src="/icons/lock-solid.svg" alt='mySvgImage' />
+            </div>
+            <div className={styles.regFormDiv}>
+              <div>
+                <input className={styles.checkbox} type="checkbox" {...register('fertilize')}/>
+                <label className={styles.boldLabel}>Reminder to Fertilize Every</label>
+              </div>
+              <select {...register('fertilizeWeeks')}>
+                <option>1 Week</option>
+                <option>2 Weeks</option>
+                <option>3 Weeks</option>
+                <option>4 Weeks</option>
+              </select>
+            </div>
+            
+            <div className={styles.regFormDiv}>
+              <p className={styles.boldLabel}>Input needed for Timeline</p>
+              <label>Last Frost Date</label>
+              <input className={styles.regInput} type="date" {...register('lastFrostDate')} />
+              <label>First Frost Date</label>
+              <input className={styles.regInput} type="date" {...register('firstFrostDate')} />
+              <p className={styles.boldLabel}> OR </p>
+              <label>Zipcode</label>
+              <input className={styles.regInput} type="text" {...register('zipcode')} />
+            </div>
+            <input className={styles.regButton} type="submit" disabled={isLoading} value="Register" />
+          </form>
+        </div>
+      )}
+    </>
+  );
 }
 
 export default RegisterForm

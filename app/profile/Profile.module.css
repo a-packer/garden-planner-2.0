@@ -1,4 +1,4 @@
-.loginRegWrapper {
+.profileWrapper {
     width: 100%;
     min-height: 300px;
     display: flex;
@@ -8,31 +8,61 @@
     padding-bottom: 20px;
 }
 
-.loginRegWrapper form {
+
+.profileWrapper h1 {
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.profileWrapper form {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-
-.loginRegFormDiv {
+.profileFormDiv {
+    padding-top: 15px;
     padding-bottom: 15px;
     display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
-.loginRegInput {
+.inputDiv {
+    position: relative;
+    margin-bottom: 15px;
+    img {
+        position: absolute;
+        top: 13px;
+        left: 5px;
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.checkbox {
+    margin-right: 5px;
+}
+
+.boldLabel {
+    font-weight: bold;
+    margin: 5px 0px;
+}
+
+.profileFormDiv select {
+    border: 2px solid grey;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+.profileInput {
     padding: 10px 0 10px 40px;
     font-size: 18px;
     border: 2px solid grey;
 }
 
-.loginRegIcon {
-    width: 20px;
-    position: absolute;
-    padding: 11px;
-}
-
-.loginRegButton {
+.profileButton {
     background: white;
     border: 5px solid #08B3E5;
     color: #08b3e5;
@@ -41,3 +71,4 @@
     padding: 10px 20px;
     margin: 10px;
 }
+  

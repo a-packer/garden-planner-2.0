@@ -1,11 +1,14 @@
+'use client'
+
 import React from 'react';
 import RegisterForm from './RegisterForm';
-import Layout from '../layout';
 
 const page = () => {
   return (
-    <RegisterForm />
+    <>
+      <RegisterForm />
+    </>
   )
-}
+};
 
-export default page
+export default page;
