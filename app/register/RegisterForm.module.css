@@ -1,10 +1,9 @@
 .regWrapper {
-    width: 100%;
+    width: 500px;
     min-height: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     padding-bottom: 20px;
 }
 
@@ -52,14 +51,25 @@
 
 .regFormDiv select {
     border: 2px solid grey;
-    padding: 10px;
+    padding: 10px 10px 10px 30px;
     margin-top: 5px;
+    width: 100%;
+    color: grey;
 }
 
 .regInput {
     padding: 10px 0 10px 40px;
     font-size: 18px;
     border: 2px solid grey;
+    color: grey;
+    width: 100%;
+    img {
+        position: absolute;
+        top: 13px;
+        left: 5px;
+        width: 20px;
+        height: 20px;
+    }
 }
 
 .regButton {
@@ -70,5 +80,42 @@
     font-weight: 700;
     padding: 10px 20px;
     margin: 10px;
+}
+
+.toggleContainer {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  overflow: hidden;
+  width: 230px;
+  margin-bottom: 10px;
+}
+
+.toggleOption {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+  flex: 1;
+  background-color: #f0f0f0;
+  transition: background-color 0.3s;
+}
+
+.toggleOptionActive {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+  flex: 1;
+  transition: background-color 0.3s;
+  background-color: #13b586;
+  color: white;
+}
+
+.hiddenRadio {
+  display: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
   

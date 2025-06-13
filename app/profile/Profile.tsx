@@ -21,7 +21,7 @@ const ProfilePage = () => {
 
   const currentUser = pb.authStore.model;
 
-  const { register, handleSubmit, reset } = useForm<FormValues>();
+  const { register, handleSubmit, reset, watch } = useForm<FormValues>();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -80,6 +80,7 @@ const ProfilePage = () => {
   if (!currentUser) {
     return <p>You must be logged in to view this page.</p>;
   }
+  const fertilizeChecked = watch('fertilize', false);
 
   return (
     <>
@@ -107,14 +108,16 @@ const ProfilePage = () => {
           <div className={styles.profileFormDiv}>
             <div>
               <input className={styles.checkbox} type="checkbox" {...register('fertilize')}/>
-              <label className={styles.boldLabel}>Reminder to Fertilize Every</label>
+              <label className={styles.boldLabel}>Send Reminder to Fertilize</label>
             </div>
-            <select {...register('fertilizeWeeks')}>
-              <option>1 Week</option>
-              <option>2 Weeks</option>
-              <option>3 Weeks</option>
-              <option>4 Weeks</option>
-            </select>
+            {fertilizeChecked && (
+              <select {...register('fertilizeWeeks')}>
+                <option>Every Week</option>
+                <option>Every 2 Weeks</option>
+                <option>Every 3 Weeks</option>
+                <option>Every 4 Weeks</option>
+              </select>
+            )}
           </div>
           
           <div className={styles.profileFormDiv}>
