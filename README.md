@@ -15,21 +15,13 @@ pnpm dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Backend - PocketBase
-start the application by running 
+start the backend of the application by running 
 ``` ./pocketbase serve ```
 [http://127.0.0.1:8090] - if pb_public directory exists, serves the static content from it (html, css, images, etc.)
 [http://127.0.0.1:8090/_/] - superusers dashboard
 [http://127.0.0.1:8090/api/] - REST-ish API
 You could find all available commands and their options by running ./pocketbase --help or ./pocketbase [command] --help
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
 ## Deploy on Vercel
 

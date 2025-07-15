@@ -14,7 +14,7 @@ const Header = () => {
       <Link href="/" className="tableHeaderTitle">Planting Schedule</Link>
       <Link href="/login" className='pageHeaderNavButton'>Login</Link>
       <Link href="/register" className='pageHeaderNavButton'>Register</Link>
-      <Link href="/profile" className='pageHeaderNavButton'>Profile</Link>
+      <Link href="/updateProfile" className='pageHeaderNavButton'>Profile</Link>
     </div>
   )
 }
