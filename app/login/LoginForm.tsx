@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import PocketBase from 'pocketbase';
+import pb from '@/lib/pb';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import styles from './LoginForm.module.css';
 
 type FormValues = {
@@ -15,16 +16,15 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [user, setUser] = useState<any>(null);
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsLoading(true);
     setErrorMsg('');
-    const pb = new PocketBase('http://127.0.0.1:8090');
 
     try {
       const authData = await pb.collection('users').authWithPassword(data.email, data.password);
-      setUser(authData.record); // you can store the auth token if needed
-      alert('Login successful!');
+      router.push('/gardenPlanner');
     } catch (err: any) {
       console.error(err);
       setErrorMsg(err?.message || 'Login failed');
