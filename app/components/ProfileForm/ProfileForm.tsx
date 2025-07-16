@@ -5,7 +5,7 @@ import styles from './Profile.module.css';
 import { useForm } from 'react-hook-form';
 import { FormValues } from '../../types';
 
-export const ProfileForm = ({onSubmit}:any) => {
+export const ProfileForm = ({onSubmit, action}:any) => {
 
   const { register, handleSubmit, watch } = useForm<FormValues>();
   const fertilizeChecked = ''
@@ -18,7 +18,7 @@ export const ProfileForm = ({onSubmit}:any) => {
 
   return (
     <div className={styles.regWrapper}>
-        <h1>Register</h1>
+        <h1>{action}</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputDiv}>
             <input className={styles.regInput} type="email" placeholder="Email" {...register('email')} required />
@@ -109,8 +109,7 @@ export const ProfileForm = ({onSubmit}:any) => {
             </>
             )}
         </div>
-
-        <input className={styles.regButton} type="submit" disabled={isLoading} value="Register" />
+        <input className={styles.regButton} type="submit" disabled={isLoading} value={action} />
         </form>
     </div>
   )

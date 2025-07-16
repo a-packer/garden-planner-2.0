@@ -1,13 +1,13 @@
 "use client"
 
-import React from 'react'
-import {ProfileForm} from '../components/ProfileForm/ProfileForm';
+import React from 'react';
+import UpdateProfileForm from './UpdateProfileForm';
 
-const onSubmit = () => {console.log("update profile")}
-
-const profile = () => {
+const page = () => {
   return (
-    <ProfileForm onSubmit={onSubmit} />
+    <>
+      <UpdateProfileForm />
+    </>
   )
 }
-export default profile
+export default page;
