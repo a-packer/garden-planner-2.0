@@ -1,43 +1,66 @@
 "use client"
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from './Profile.module.css';
 import { useForm } from 'react-hook-form';
 import { FormValues } from '../../types';
+import pb from '@/lib/pb';
 
 export const ProfileForm = ({onSubmit, action}:any) => {
 
-  const { register, handleSubmit, watch } = useForm<FormValues>();
-  const fertilizeChecked = ''
+  const { register, handleSubmit, watch, reset } = useForm<FormValues>();
   
+  const fertilizeChecked = watch('fertilize', false);
   const toggleValue = watch('toggleType', 'frost');
   const toggleFrostClass = toggleValue === 'frost' ? styles.toggleOptionActive : styles.toggleOption
   const toggleZipClass = toggleValue === 'zip' ? styles.toggleOptionActive : styles.toggleOption
 
   const [isLoading, setLoading] = useState(false);
+  const isUpdate = action == "Update Profile" ? true : false
+
+  useEffect(()=> {
+    const user = pb.authStore.model;
+    if (user) {
+        reset({
+            email: user.email,
+            name: user.name,
+            toggleType: user.toggleType || 'frost',
+            fertilize:  user.fertilize_reminder,
+            fertilizeWeeks: user.fertilize_weeks,
+            lastFrostDate: user.last_frost,
+            firstFrostDate: user.first_frost,
+            zipcode: user.zipcode
+        });
+    }
+  }, [reset])
 
   return (
     <div className={styles.regWrapper}>
         <h1>{action}</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputDiv}>
-            <input className={styles.regInput} type="email" placeholder="Email" {...register('email')} required />
+            <input className={styles.regInput} type="email" placeholder="Email" {...register('email')} />
             <img src="/icons/email.svg" alt='mySvgImage' />
         </div>
         <div className={styles.inputDiv}>
             <input className={styles.regInput} type="text" placeholder="Preferred Name" {...register('name')} />
             <img src="/icons/user.svg" alt='mySvgImage' />
         </div>
-        <div className={styles.inputDiv}>
-            <input className={styles.regInput} type="password" placeholder="Password" {...register('password')} required />
-            <img src="/icons/lock-solid.svg" alt='mySvgImage' />
-        </div>
-        <div className={styles.inputDiv}>
-            <input className={styles.regInput} type="password" placeholder="Confirm Password" {...register('passwordConfirm')} required />
-            <img src="/icons/lock-solid.svg" alt='mySvgImage' />
-        </div>
+
+        {!isUpdate && 
+            <>
+                <div className={styles.inputDiv}>
+                    <input className={styles.regInput} type="password" placeholder="Password" {...register('password')} />
+                    <img src="/icons/lock-solid.svg" alt='mySvgImage' />
+                </div>
+                <div className={styles.inputDiv}>
+                    <input className={styles.regInput} type="password" placeholder="Confirm Password" {...register('passwordConfirm')} />
+                    <img src="/icons/lock-solid.svg" alt='mySvgImage' />
+                </div>
+            </>
+        }
         <div className={styles.regFormDiv}>
-            <p className={styles.boldLabel}>Create Timeline based on</p>
+            <p className={styles.boldLabel}>Email Fertilizer Reminder</p>
             <label className={styles.switch}>
             <input type="checkbox" {...register('fertilize')} />
             <span className={styles.slider}></span>
@@ -55,7 +78,7 @@ export const ProfileForm = ({onSubmit, action}:any) => {
         </div>
         
         <div className={styles.regFormDiv}>
-            <p className={styles.boldLabel}>Email Fertilizer Reminder</p>
+            <p className={styles.boldLabel}>Create Timeline based on</p>
 
             <div className={styles.toggleContainer}>      
             <label className={toggleFrostClass} >
