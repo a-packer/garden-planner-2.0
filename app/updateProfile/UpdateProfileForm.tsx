@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from 'react';
-import PocketBase from 'pocketbase';
 import { SubmitHandler } from 'react-hook-form';
 import {FormValues} from '../types';
 import { ProfileForm } from '../components/ProfileForm/ProfileForm';
@@ -22,17 +21,18 @@ const UpdateProfileForm = () => {
       return;
     }
 
-    console.log(await pb.collection('users').update(userId, {
-      email: data.email,
-      name: data.name,
-      fertilize_reminder: data.fertilize,
-      fertilize_weeks: data.fertilizeWeeks,
-      last_frost: data.lastFrostDate,
-      first_frost: data.firstFrostDate,
-      zipcode: data.zipcode}))
+      console.log(await pb.collection('users').update(userId, {
+        email: data.email,
+        name: data.name,
+        fertilize_reminder: data.fertilize,
+        fertilize_weeks: data.fertilizeWeeks,
+        last_frost: data.lastFrostDate,
+        first_frost: data.firstFrostDate,
+        zipcode: data.zipcode}))
 
       // TODO: fix the frost date not populating properly on the update profile page
       // TODO: save zip vs frost date toggle value using new data column: 'plan_by_zip'
+      // TODO: update seems not to be working
 
     try {
       await pb.collection('users').update(userId, {
