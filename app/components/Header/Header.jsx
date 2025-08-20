@@ -29,7 +29,8 @@ const Header = () => {
         <>        
           <Link href="/" className="tableHeaderTitle">Planting Schedule</Link>
           <Link href="/updateProfile" className='pageHeaderNavButton'>Profile</Link>
-          <button onClick={handleLogout} className='pageHeaderNavButton'>Logout</button>
+          <Link href="/gardenPlanner" className='pageHeaderNavButton'>GardenPlanner</Link>
+          <button onClick={handleLogout} className='pageHeaderLogout'>Logout</button>
         </>
         :
         <>      

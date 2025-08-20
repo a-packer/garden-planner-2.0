@@ -17,7 +17,6 @@ const PlantList = ({selectedPlants, setSelectedPlants}) => {
     setPlantDisplayed(false)
   }
 
-
   return (
     <div className="plantList-wrapper">
 
@@ -28,7 +27,9 @@ const PlantList = ({selectedPlants, setSelectedPlants}) => {
      </button>
 
      <form className={plantsDisplayed ? "plantList-form" : "plantList-form-hidden"}>
-      {listOfPlants.map((plant) => <Plant id={plant.id} plant={plant} selectedPlants={selectedPlants} setSelectedPlants={setSelectedPlants}/>)}   
+        <div className="plant-container">
+      {listOfPlants.map((plant) => <Plant key={plant.id} plant={plant} selectedPlants={selectedPlants} setSelectedPlants={setSelectedPlants}/>)}   
+        </div>
      </form>
       
     </div>

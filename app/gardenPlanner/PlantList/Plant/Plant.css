@@ -3,3 +3,32 @@
   font-size: 18px;
   width: 150px;
 }
+
+.plant-token-wrapper input {
+  display: none; /* hide the checkbox */
+}
+
+.plant-token-wrapper label {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  color: #333;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+/* Hover effect */
+.plant-token-wrapper label:hover {
+  background-color: #e0ffe0;
+  border-color: #88cc88;
+}
+
+/* Checked effect */
+.plant-token-wrapper input:checked + label {
+  background-color: #4caf50;
+  color: white;
+  border-color: #4caf50;
+}

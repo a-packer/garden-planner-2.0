@@ -31,12 +31,24 @@
   background: linear-gradient(90deg, #D76572, #d79665, #FED44B, #29b513, #13b586);
   background-size: 250% 100%; /* Double the width to allow for movement */
   background-position: left;  /* Start position */
-  transition: background-position 1s ease; /* Smooth transition for background position */
+  transition: background-position 1s ease;
   border: none;
   padding: 10px 20px;
   font-weight: bold;
   font-size: 16px;
   color: white;
+}
+
+.pageHeaderLogout {
+  padding-left: 20px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #13b586;
+  transition: color 1s ease;
+  &:hover {
+    text-decoration: underline;
+    color: #D76572;
+  }
 }
 
 .pageHeaderNavButton:hover {

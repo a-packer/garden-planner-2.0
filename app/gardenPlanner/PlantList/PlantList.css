@@ -22,9 +22,15 @@
   font-size: 18px;
   color: white;
   margin-right: 10px;
-  transition: background-position 1s ease; /* Smooth transition for background position */
+  transition: background-position 1s ease;
 }
 
 .plant-list-button:hover {
-  background-position: right; /* On hover, move the gradient */
+  background-position: right;
+}
+
+.plant-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
