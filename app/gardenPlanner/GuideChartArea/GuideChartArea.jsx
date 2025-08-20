@@ -1,18 +1,33 @@
 import React, {useState, useEffect} from 'react';
 import TableHeader from './TableHeader';
 import GuideChart from './GuideChart';
-// import {getPlantData} from './HelperFunctions';
+import {getPlantDataBySpecies} from './HelperFunctions';
 import './GuideChartArea.css';
 
 const GuideChartArea = ({selectedPlants, frostDate}) => {
 
   const [selectedPlantData, setSelectedPlantData] = useState([])
 
-  useEffect(()=> {
-    // get plantData
-    setSelectedPlantData('');
-    // fetchData();
-  }, [selectedPlants])
+  useEffect(() => {
+    if (selectedPlants.length === 0) {
+      setSelectedPlantData([]);
+      return;
+    }
+
+    const fetchPlants = async () => {
+      try {
+        // Wait for all Promises to resolve
+        const plantDataArray = await Promise.all(
+          selectedPlants.map((species) => getPlantDataBySpecies(species))
+        );
+        setSelectedPlantData(plantDataArray);
+      } catch (error) {
+        console.error("Error fetching plant data:", error);
+      }
+    };
+
+    fetchPlants();
+  }, [selectedPlants]);
 
   return (
     <div className="guidechart-wrapper">      

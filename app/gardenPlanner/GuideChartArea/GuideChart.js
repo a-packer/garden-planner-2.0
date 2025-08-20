@@ -37,9 +37,9 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
       .each(function(d, i) { // for each selected plant
         const fullBar = d3.select(this);
   
-        const startDate = getStartingDate(frostDate, d.numWeeksIn);
-        const endDate = new Date(startDate).setDate(startDate.getDate() + d.totalGrowth * 7);     
-        const plantTransplantDate = getPlantOutDate(frostDate, d.weeksRelOut)
+        const startDate = getStartingDate(frostDate, d.rel_weeks_inside);
+        const endDate = new Date(startDate).setDate(startDate.getDate() + d.weeks_total_growth * 7);     
+        const plantTransplantDate = getPlantOutDate(frostDate, d.rel_weeks_outside)
         
         const startPoint = xScale(startDate);
         const endPoint = xScale(endDate);

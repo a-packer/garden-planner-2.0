@@ -14,7 +14,7 @@
 
 .plant-list-button {  
   background: linear-gradient(90deg, #13b586, #29b513, #FED44B, #d79665, #D76572);
-  background-size: 230% 100%; /* Double the width to allow for movement */
+  background-size: 250% 100%; /* Double the width to allow for movement */
   background-position: left;  /* Start position */
   border: none;
   padding: 10px 20px;

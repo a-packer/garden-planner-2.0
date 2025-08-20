@@ -1,19 +1,17 @@
 import * as d3 from 'd3';
+import pb from '@/lib/pb'
 
-export const getPlantData = async (species) => {
+export const getPlantDataBySpecies = async (species) => {
+  console.log('species', species)
   try {
-    const response = await fetch(`/plants/${species}`, {
-      method: 'GET',
-      headers: {
-          'Content-Type': 'application/json',
-      }
-    });
-    if (response.ok) {
-      const data = await response.json();
-      return data; // return the resolved data
-    }
+    const plant = await pb.collection('plants').getFirstListItem(
+      `species="${species}"`
+    );
+    console.log('plantData', plant)
+    return plant;
   } catch (error) {
-    console.log('Error with fetching plant data');
+    console.error('Error fetching plant by species:', error);
+    return null;
   }
 };
 
@@ -29,9 +27,9 @@ export const getStartingDate = (frostDate, weeksIn) => {
   return date;
 };
 
-export const getPlantOutDate = (frostDate, weeksRelOut) => {
+export const getPlantOutDate = (frostDate, rel_weeks_outside) => {
   const date = new Date(formatFrostDate(frostDate));
-  return date.setDate(date.getDate() + weeksRelOut * 7);
+  return date.setDate(date.getDate() + rel_weeks_outside * 7);
 };
 
 export const createXAxis = (svg, xScale, height, padding) => {
