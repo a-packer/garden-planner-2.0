@@ -1,5 +1,5 @@
-import PocketBase from 'pocketbase';
 import Link from 'next/link';
+import pb from '@/lib/pb';
 
 type Plant = {
   id: string;
@@ -7,7 +7,6 @@ type Plant = {
 };
 
 const Plants = async () => {
-  const pb = new PocketBase('http://127.0.0.1:8090');
   const data = await pb.collection('plants').getList(1, 50);
   const plants = data?.items || {} as Plant[];
 

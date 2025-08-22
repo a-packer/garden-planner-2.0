@@ -5,6 +5,7 @@ import PocketBase from 'pocketbase';
 import { SubmitHandler } from 'react-hook-form';
 import {FormValues} from '../types';
 import { ProfileForm } from '../components/ProfileForm/ProfileForm';
+import Link from 'next/link';
 
 const RegisterForm = () => {
   const [isLoading, setLoading] = useState(false);
@@ -47,7 +48,13 @@ const RegisterForm = () => {
     <>
       {isLoading && <p>Loading...</p>}
       {isRegistered ? (
-        <h1>Successfully registered!</h1>
+        <div>
+          <h1>Successfully registered!</h1>
+          <div>
+            <Link href="/">Home Page</Link>
+            <Link href="/gardenPlanner">Garden Planner</Link>
+          </div>
+        </div>
       ) : ( <ProfileForm onSubmit={onSubmit} action={"Register"} />)}
     </>
   );

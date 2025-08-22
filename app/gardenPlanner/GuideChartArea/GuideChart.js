@@ -40,28 +40,25 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
         const startDate = getStartingDate(frostDate, d.rel_weeks_inside);
         const endDate = new Date(startDate).setDate(startDate.getDate() + d.weeks_total_growth * 7);     
         const plantTransplantDate = getPlantOutDate(frostDate, d.rel_weeks_outside)
-        
         const startPoint = xScale(startDate);
         const endPoint = xScale(endDate);
         const plantTransplantPoint = xScale(plantTransplantDate);
-    
+        createGradients(svg, plantTransplantPoint, startPoint, endPoint);
+  
         // left hand part of bar, before plantOutDate
         fullBar.append("rect")
           .attr("x", startPoint)
           .attr("y", i * 50)
-          .attr("width", plantTransplantPoint - startPoint) // go to change plant or transplant point
+          .attr("width", 0) // go to change plant or transplant point
           .attr("height", 40)
-          .attr("fill", "url(#orange-gradient)");
-        // right hand part of bar after plantOutDate
-        fullBar.append("rect")
-          .attr("x", plantTransplantPoint) // begin new color at change point
-          .attr("y", i * 50)
-          .attr("width", endPoint - plantTransplantPoint) // continue till end of harvest date
-          .attr("height", 40)
-          .attr("fill", "url(#green-gradient)");       
+          .attr("fill", "url(#orange-to-green-gradient)")
+          .transition()
+          .duration(1000)
+          .attr("width", endPoint - startPoint);
+            
       });
 
-      createGradients(svg);
+
       createXAxis(svg, xScale, height, padding);
       createMonthLabels(svg, xScale, height);
         
