@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import { easeLinear } from "d3-ease";
 import {
   getStartingDate,
   getPlantOutDate,
@@ -14,6 +15,11 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
   // useRef allows us to directly reference a specific DOM element that D3 can apply changes to
   const ref = useRef();
 
+  console.log('selected plants', selectedPlantsData[-1]) // most recently selected plant
+  console.log('when a plant is unselected, we dont want to use the effect for any plants', )
+
+  // need a list of already rendered plants (so we can display them without the transition effect)
+  // for the newest selected plan, use the transition effect
   useEffect(() => {
 
     // ref.current gives d3 access to the actual div DOM node rendered by react
@@ -34,7 +40,7 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
       .data(selectedPlantsData)
       .enter()
       .append("g")
-      .each(function(d, i) { // for each selected plant
+      .each(function(d, i) {
         const fullBar = d3.select(this);
   
         const startDate = getStartingDate(frostDate, d.rel_weeks_inside);
@@ -44,18 +50,31 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
         const endPoint = xScale(endDate);
         const plantTransplantPoint = xScale(plantTransplantDate);
         createGradients(svg, plantTransplantPoint, startPoint, endPoint);
-  
+
         // left hand part of bar, before plantOutDate
         fullBar.append("rect")
           .attr("x", startPoint)
           .attr("y", i * 50)
           .attr("width", 0) // go to change plant or transplant point
           .attr("height", 40)
-          .attr("fill", "url(#orange-to-green-gradient)")
+          .attr("fill", "url(#orange-gradient)")
           .transition()
-          .duration(1000)
-          .attr("width", endPoint - startPoint);
-            
+          .duration((plantTransplantPoint - startPoint)*5)
+          .ease(easeLinear)
+          .attr("width", plantTransplantPoint - startPoint) 
+          ;
+        // right hand part of bar after plantOutDate
+        fullBar.append("rect")
+          .attr("x", plantTransplantPoint) // begin new color at change point
+          .attr("y", i * 50)
+          .attr("width", 0) // continue till end of harvest date
+          .attr("height", 40)
+          .attr("fill", "url(#green-gradient)")
+          .transition()
+          .delay((plantTransplantPoint - startPoint)*5)
+          .duration((endPoint - plantTransplantPoint)*5)          
+          .ease(easeLinear)
+          .attr("width", endPoint - plantTransplantPoint);    
       });
 
 

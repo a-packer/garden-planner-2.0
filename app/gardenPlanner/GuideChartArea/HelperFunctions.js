@@ -60,43 +60,43 @@ export const createGradients = (svg, plantTransplantPoint, startPoint, endPoint)
   const gradient = defs.append("linearGradient")
     .attr("id", "orange-to-green-gradient") 
 
-  gradient.append("stop")
+  // gradient.append("stop")
+  //   .attr("offset", "0%")
+  //   .attr("stop-color","#D76572")
+  // gradient.append("stop")
+  //   .attr("offset", `${(plantTransplantPoint - startPoint)/(endPoint - startPoint)*100}%`)
+  //   .attr("stop-color", "#FED44B")
+  // gradient.append("stop")
+  //   .attr("offset",`${(plantTransplantPoint - startPoint)/(endPoint - startPoint)*100}%`)
+  //   .attr("stop-color", "#FED44B")
+  // gradient.append("stop")
+  //   .attr("offset", "100%")
+  //   .attr("stop-color", "#13b586")
+
+
+  const gradientGreen = defs.append("linearGradient")
+    .attr("id", "orange-gradient")
+    .attr("x1", "0%")
+    .attr("y1", "0%")
+    .attr("x2", "100%")
+    .attr("y2", "0%");
+  gradientGreen.append("stop")
     .attr("offset", "0%")
-    .attr("stop-color","#D76572")
-  gradient.append("stop")
-    .attr("offset", `${(plantTransplantPoint - startPoint)/(endPoint - startPoint)*100}%`)
-    .attr("stop-color", "#FED44B")
-  gradient.append("stop")
-    .attr("offset",`${(plantTransplantPoint - startPoint)/(endPoint - startPoint)*100}%`)
-    .attr("stop-color", "#FED44B")
-  gradient.append("stop")
+    .attr("stop-color", "#D76572");
+  gradientGreen.append("stop")
     .attr("offset", "100%")
-    .attr("stop-color", "#13b586")
+    .attr("stop-color", "#FED44B");
+
+  const gradientBlue = defs.append("linearGradient")
+    .attr("id", "green-gradient")
+    .attr("x1", "0%")
+    .attr("y1", "0%")
+    .attr("x2", "100%")
+    .attr("y2", "0%");
+  gradientBlue.append("stop")
+    .attr("offset", "0%")
+    .attr("stop-color", "#FED44B");
+  gradientBlue.append("stop")
+    .attr("offset", "100%")
+    .attr("stop-color", "#13b586");
 }
-
-//   const gradientGreen = defs.append("linearGradient")
-//     .attr("id", "orange-gradient")
-//     .attr("x1", "0%")
-//     .attr("y1", "0%")
-//     .attr("x2", "100%")
-//     .attr("y2", "0%");
-//   gradientGreen.append("stop")
-//     .attr("offset", "0%")
-//     .attr("stop-color", "#D76572");
-//   gradientGreen.append("stop")
-//     .attr("offset", "100%")
-//     .attr("stop-color", "#FED44B");
-
-//   const gradientBlue = defs.append("linearGradient")
-//     .attr("id", "green-gradient")
-//     .attr("x1", "0%")
-//     .attr("y1", "0%")
-//     .attr("x2", "100%")
-//     .attr("y2", "0%");
-//   gradientBlue.append("stop")
-//     .attr("offset", "0%")
-//     .attr("stop-color", "#FED44B");
-//   gradientBlue.append("stop")
-//     .attr("offset", "100%")
-//     .attr("stop-color", "#13b586");
-// };
