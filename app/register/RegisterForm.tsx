@@ -38,6 +38,9 @@ const RegisterForm = () => {
       setIsRegistered(true);
     } catch (err: any) {
       console.error(err);
+      if (err.message = "validation_not_unique") {
+        alert('Profile with this email already exists')
+      }
       alert('Registration failed: ' + (err.message || 'Unknown error'));
     }
 
