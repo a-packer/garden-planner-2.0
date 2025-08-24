@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import * as d3 from 'd3';
 import { easeLinear } from "d3-ease";
 import {
@@ -15,12 +15,15 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
   // useRef allows us to directly reference a specific DOM element that D3 can apply changes to
   const ref = useRef();
 
-  console.log('selected plants', selectedPlantsData[-1]) // most recently selected plant
-  console.log('when a plant is unselected, we dont want to use the effect for any plants', )
-
   // need a list of already rendered plants (so we can display them without the transition effect)
-  // for the newest selected plan, use the transition effect
+  const [renderedPlants, setRenderedPlants] = useState([])
+  
   useEffect(() => {
+
+    // Find plants that are in selectedPlantsData but not yet in renderedPlants
+    const newlySelectedPlant = selectedPlantsData.filter((plant)=> !renderedPlants.some(rendPlant => rendPlant.id === plant.id))
+    // Update rendered plants state
+    setRenderedPlants(selectedPlantsData)
 
     // ref.current gives d3 access to the actual div DOM node rendered by react
     // clears the previous d3 chart (so we aren't seeing a new additional chart every time we re-render)
@@ -51,33 +54,55 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
         const plantTransplantPoint = xScale(plantTransplantDate);
         createGradients(svg, plantTransplantPoint, startPoint, endPoint);
 
-        // left hand part of bar, before plantOutDate
-        fullBar.append("rect")
+        const isNew = newlySelectedPlant.some((plant) => plant.id === d.id);
+
+        const leftRect = fullBar.append("rect")
           .attr("x", startPoint)
           .attr("y", i * 50)
-          .attr("width", 0) // go to change plant or transplant point
           .attr("height", 40)
-          .attr("fill", "url(#orange-gradient)")
-          .transition()
-          .duration((plantTransplantPoint - startPoint)*5)
-          .ease(easeLinear)
-          .attr("width", plantTransplantPoint - startPoint) 
-          ;
-        // right hand part of bar after plantOutDate
-        fullBar.append("rect")
-          .attr("x", plantTransplantPoint) // begin new color at change point
+          .attr("fill", "url(#orange-gradient)");
+
+          if (isNew) {
+            leftRect
+              .attr("width", 0)
+              .transition()
+              .duration((plantTransplantPoint - startPoint)*5)
+              .ease(easeLinear)
+              .attr("width", plantTransplantPoint - startPoint) 
+          } else {
+            leftRect.attr("width", plantTransplantPoint - startPoint);
+          }
+
+        const rightRect = fullBar.append("rect")
+          .attr("x", plantTransplantPoint)
           .attr("y", i * 50)
-          .attr("width", 0) // continue till end of harvest date
           .attr("height", 40)
-          .attr("fill", "url(#green-gradient)")
-          .transition()
-          .delay((plantTransplantPoint - startPoint)*5)
-          .duration((endPoint - plantTransplantPoint)*5)          
-          .ease(easeLinear)
-          .attr("width", endPoint - plantTransplantPoint);    
+          .attr("fill", "url(#green-gradient)");
+
+          if (isNew) {
+            rightRect
+              .attr("width", 0)
+              .transition()
+              .delay((plantTransplantPoint - startPoint)*5)
+              .duration((endPoint - plantTransplantPoint)*5)          
+              .ease(easeLinear)
+              .attr("width", endPoint - plantTransplantPoint);
+          } else {
+            rightRect 
+              .attr("width", endPoint - plantTransplantPoint)
+          }
+        
+        // plant bar label  
+        fullBar.append("text")
+          .attr("x", endPoint - 5)
+          .attr("y", i * 50 + 25)
+          .attr("dominant-baseline", "middle")
+          .attr("text-anchor", "end")
+          .attr("fill", "white")
+          .attr("font-size", 20)
+          .attr("font-weight", "bold")
+          .text(d.species);
       });
-
-
       createXAxis(svg, xScale, height, padding);
       createMonthLabels(svg, xScale, height);
         
