@@ -54,25 +54,8 @@ export const createMonthLabels = (svg, xScale, height) => {
     .attr("text-anchor", "middle"); 
 }
 
-export const createGradients = (svg, plantTransplantPoint, startPoint, endPoint) => {
+export const createGradients = (svg) => {
   const defs = svg.append("defs");
-
-  const gradient = defs.append("linearGradient")
-    .attr("id", "orange-to-green-gradient") 
-
-  // gradient.append("stop")
-  //   .attr("offset", "0%")
-  //   .attr("stop-color","#D76572")
-  // gradient.append("stop")
-  //   .attr("offset", `${(plantTransplantPoint - startPoint)/(endPoint - startPoint)*100}%`)
-  //   .attr("stop-color", "#FED44B")
-  // gradient.append("stop")
-  //   .attr("offset",`${(plantTransplantPoint - startPoint)/(endPoint - startPoint)*100}%`)
-  //   .attr("stop-color", "#FED44B")
-  // gradient.append("stop")
-  //   .attr("offset", "100%")
-  //   .attr("stop-color", "#13b586")
-
 
   const gradientGreen = defs.append("linearGradient")
     .attr("id", "orange-gradient")

@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState, useRef } from 'react';
 import * as d3 from 'd3';
 import { easeLinear } from "d3-ease";
@@ -20,14 +22,14 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
   
   useEffect(() => {
 
-    // Find plants that are in selectedPlantsData but not yet in renderedPlants
-    const newlySelectedPlant = selectedPlantsData.filter((plant)=> !renderedPlants.some(rendPlant => rendPlant.id === plant.id))
-    // Update rendered plants state
-    setRenderedPlants(selectedPlantsData)
-
     // ref.current gives d3 access to the actual div DOM node rendered by react
     // clears the previous d3 chart (so we aren't seeing a new additional chart every time we re-render)
     d3.select(ref.current).selectAll('*').remove();
+
+    // Find plant that is in selectedPlantsData but not yet in renderedPlants
+    const newlySelectedPlant = selectedPlantsData.filter((plant)=> !renderedPlants.some(renderedPlant => renderedPlant.id === plant.id))
+    // Update rendered plants state
+    setRenderedPlants(selectedPlantsData)
     
     const width = window.innerWidth - 100; const height = 350; const padding = 10;
     const svg = d3.select(ref.current)
@@ -66,7 +68,7 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
             leftRect
               .attr("width", 0)
               .transition()
-              .duration((plantTransplantPoint - startPoint)*5)
+              .duration((plantTransplantPoint - startPoint)*3)
               .ease(easeLinear)
               .attr("width", plantTransplantPoint - startPoint) 
           } else {
@@ -83,8 +85,8 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
             rightRect
               .attr("width", 0)
               .transition()
-              .delay((plantTransplantPoint - startPoint)*5)
-              .duration((endPoint - plantTransplantPoint)*5)          
+              .delay((plantTransplantPoint - startPoint)*3)
+              .duration((endPoint - plantTransplantPoint)*3)          
               .ease(easeLinear)
               .attr("width", endPoint - plantTransplantPoint);
           } else {

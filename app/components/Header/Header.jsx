@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import pb from '@/lib/pb';
 
 const Header = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(pb.authStore.isValid);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const router = useRouter();
 
   useEffect(()=> {
@@ -23,6 +23,11 @@ const Header = () => {
     router.push('/');
   };
 
+  if (isAuthenticated === null) {
+    // avoid hydration error by rendering nothing until client knows
+    return <div className="pageHeaderWrapper"></div>
+  }
+
   return (
     <div className='pageHeaderWrapper'>
       {isAuthenticated ? 
@@ -33,7 +38,8 @@ const Header = () => {
           <button onClick={handleLogout} className='pageHeaderLogout'>Logout</button>
         </>
         :
-        <>      
+        <>  
+          <Link href="/" className="tableHeaderTitle">Planting Schedule</Link>    
           <Link href="/login" className='pageHeaderNavButton'>Login</Link>
           <Link href="/register" className='pageHeaderNavButton'>Register</Link>
         </>
