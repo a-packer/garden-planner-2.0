@@ -19,6 +19,15 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
 
   // need a list of already rendered plants (so we can display them without the transition effect)
   const [renderedPlants, setRenderedPlants] = useState([])
+
+  // Resize chart based on window size
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 800)
+  useEffect(()=> {
+    console.log('windowWidth change', window.innerWidth)
+    const handleResize = () => {setWindowWidth(window.innerWidth)}
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize); // prevent multiple listeners being applied
+  }, [])
   
   useEffect(() => {
 
@@ -34,8 +43,9 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
     const width = window.innerWidth - 100; const height = 350; const padding = 10;
     const svg = d3.select(ref.current)
     .append("svg")
-    .attr("width", width)
-    .attr("height", height);
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .style("width", "100%")
+    .style("height", "auto");
 
     const xScale = d3.scaleTime()
       .domain([new Date(2000, 0, 1), new Date(2000, 9, 1)])
@@ -108,7 +118,7 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
       createXAxis(svg, xScale, height, padding);
       createMonthLabels(svg, xScale, height);
         
-    }, [selectedPlantsData, frostDate]
+    }, [selectedPlantsData, frostDate, windowWidth]
   )
   return <div ref={ref}></div>; // react assigns this div to ref.current
 };
