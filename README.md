@@ -16,7 +16,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Backend - PocketBase
 start the backend of the application by running 
+
 ``` ./pocketbase serve ```
+
 [http://127.0.0.1:8090] - if pb_public directory exists, serves the static content from it (html, css, images, etc.)
 [http://127.0.0.1:8090/_/] - superusers dashboard
 [http://127.0.0.1:8090/api/] - REST-ish API

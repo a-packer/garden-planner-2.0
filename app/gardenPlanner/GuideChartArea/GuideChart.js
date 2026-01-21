@@ -40,18 +40,22 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
     // Update rendered plants state
     setRenderedPlants(selectedPlantsData)
     
-    const width = window.innerWidth - 100; const height = 350; const padding = 10;
+    const width = window.innerWidth - 100; const minheight = 300; const padding = 10;
+    const height = Math.max(minheight, selectedPlantsData.length * 50 + 30);
     const svg = d3.select(ref.current)
     .append("svg")
-    .attr("viewBox", `0 0 ${width} ${height}`)
+    .attr("viewBox", `0 0 ${width} ${Math.max(height)}`)
     .style("width", "100%")
     .style("height", "auto");
+
+    const gridLayer = svg.append("g").attr("class", "grid-layer");
+    const plantBarLayer = svg.append("g").attr("class", "bar-layer");
 
     const xScale = d3.scaleTime()
       .domain([new Date(2000, 0, 1), new Date(2000, 9, 1)])
       .range([0, width]);
 
-    svg.selectAll("g")
+    plantBarLayer.selectAll("g")
       .data(selectedPlantsData)
       .enter()
       .append("g")
@@ -115,8 +119,8 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
           .attr("font-weight", "bold")
           .text(d.species);
       });
-      createXAxis(svg, xScale, height, padding);
-      createMonthLabels(svg, xScale, height);
+      createXAxis(gridLayer, xScale, height, padding);
+      createMonthLabels(gridLayer, xScale, height);
         
     }, [selectedPlantsData, frostDate, windowWidth]
   )
