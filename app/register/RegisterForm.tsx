@@ -37,11 +37,13 @@ const RegisterForm = () => {
       await pb.collection('users').authWithPassword(data.email, data.password);
       setIsRegistered(true);
     } catch (err: any) {
-      console.error(err);
-      if (err.message = "validation_not_unique") {
+      console.error('hello error', err);
+      if (err.message === "validation_not_unique") {
         alert('Profile with this email already exists')
       }
-      alert('Registration failed: ' + (err.message || 'Unknown error'));
+      else {
+        alert('Registration failed: ' + (err.message || 'Unknown error'));
+      }
     }
 
     setLoading(false);

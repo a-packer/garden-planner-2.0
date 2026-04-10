@@ -23,9 +23,26 @@
   color: white;
   margin-right: 10px;
   transition: background-position 1s ease;
+  cursor: pointer;
 }
 
-.plant-list-button:hover {
+.save-list-button {  
+  background: linear-gradient(90deg, #81d4fa, #29b6f6, #03a9f4, #039be5, #0277bd);
+  background-size: 250% 100%; /* Double the width to allow for movement */
+  background-position: left;  /* Start position */
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+  margin-right: 10px;
+  transition: background-position 1s ease;
+  cursor: pointer;
+}
+
+
+.plant-list-button:hover,
+.save-list-button:hover {
   background-position: right;
 }
 

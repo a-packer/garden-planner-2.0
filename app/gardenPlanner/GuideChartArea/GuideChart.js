@@ -23,7 +23,6 @@ const BarChart = ({ selectedPlantsData, frostDate }) => {
   // Resize chart based on window size
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 800)
   useEffect(()=> {
-    console.log('windowWidth change', window.innerWidth)
     const handleResize = () => {setWindowWidth(window.innerWidth)}
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize); // prevent multiple listeners being applied

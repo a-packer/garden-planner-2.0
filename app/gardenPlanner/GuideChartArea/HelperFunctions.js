@@ -1,12 +1,11 @@
 import * as d3 from 'd3';
 import pb from '@/lib/pb'
 
-export const getPlantDataBySpecies = async (species) => {
+export const getPlantDataById = async (plant_id) => {
   try {
     const plant = await pb.collection('plants').getFirstListItem(
-      `species="${species}"`
+      `id="${plant_id}"`
     );
-    console.log('plantData', plant)
     return plant;
   } catch (error) {
     console.error('Error fetching plant by species:', error);
